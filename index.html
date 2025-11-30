@@ -528,6 +528,297 @@
             }
         }
         
+        /* Гирлянда вокруг сайта */
+        .garland-border {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            z-index: 5;
+            opacity: 0;
+            transition: opacity 0.5s ease;
+        }
+        
+        .garland-border.active {
+            opacity: 1;
+        }
+        
+        .garland-light {
+            position: absolute;
+            width: 15px;
+            height: 15px;
+            border-radius: 50%;
+            animation: garlandBlink 2s infinite alternate;
+            box-shadow: 0 0 10px currentColor;
+        }
+        
+        @keyframes garlandBlink {
+            0% { opacity: 0.3; transform: scale(0.8); }
+            50% { opacity: 1; transform: scale(1.1); }
+            100% { opacity: 0.3; transform: scale(0.8); }
+        }
+        
+        /* Стили для кнопки входа */
+        .login-btn {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            width: 50px;
+            height: 50px;
+            background: var(--dark-gray);
+            border: 1px solid var(--dark-gold);
+            border-radius: 50%;
+            color: var(--gold);
+            font-size: 1.2rem;
+            transition: all 0.3s ease;
+            text-decoration: none;
+            position: relative;
+            cursor: pointer;
+        }
+        
+        .login-btn:hover {
+            background: var(--gold);
+            color: var(--black);
+            transform: translateY(-5px);
+            box-shadow: 0 5px 15px rgba(255, 215, 0, 0.4);
+        }
+        
+        .login-tooltip {
+            position: absolute;
+            bottom: -40px;
+            left: 50%;
+            transform: translateX(-50%);
+            background: var(--dark-gray);
+            color: var(--gold);
+            padding: 5px 10px;
+            border-radius: 5px;
+            font-size: 0.8rem;
+            white-space: nowrap;
+            opacity: 0;
+            transition: opacity 0.3s;
+            pointer-events: none;
+            border: 1px solid var(--dark-gold);
+        }
+        
+        .login-btn:hover .login-tooltip {
+            opacity: 1;
+        }
+        
+        /* Модальное окно авторизации */
+        .auth-modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.8);
+            z-index: 2000;
+            justify-content: center;
+            align-items: center;
+        }
+        
+        .auth-content {
+            background: var(--dark-gray);
+            border: 2px solid var(--gold);
+            border-radius: 10px;
+            padding: 30px;
+            max-width: 400px;
+            width: 90%;
+            text-align: center;
+            position: relative;
+            box-shadow: 0 0 30px rgba(255, 215, 0, 0.5);
+            animation: modalAppear 0.5s ease-out;
+        }
+        
+        .auth-title {
+            font-size: 1.8rem;
+            margin-bottom: 20px;
+            color: var(--gold);
+            text-shadow: 0 0 10px var(--gold);
+        }
+        
+        .auth-input {
+            width: 100%;
+            padding: 12px;
+            margin: 10px 0;
+            background: rgba(0, 0, 0, 0.7);
+            border: 1px solid var(--dark-gold);
+            border-radius: 5px;
+            color: var(--paper);
+            font-size: 1rem;
+        }
+        
+        .auth-btn {
+            background: linear-gradient(45deg, var(--dark-gold), var(--gold));
+            color: var(--black);
+            padding: 12px 30px;
+            border-radius: 50px;
+            border: none;
+            font-weight: bold;
+            font-size: 1.1rem;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            margin-top: 15px;
+            width: 100%;
+        }
+        
+        .auth-btn:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 5px 15px rgba(255, 215, 0, 0.4);
+        }
+        
+        .auth-error {
+            color: var(--bright-red);
+            margin-top: 10px;
+            display: none;
+        }
+        
+        /* Панель управления лидерами */
+        .admin-panel {
+            display: none;
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            z-index: 2000;
+            background: rgba(26, 26, 26, 0.95);
+            border: 2px solid var(--gold);
+            border-radius: 10px;
+            padding: 20px;
+            box-shadow: 0 0 30px rgba(255, 215, 0, 0.5);
+            backdrop-filter: blur(5px);
+            max-width: 600px;
+            width: 90%;
+            max-height: 80vh;
+            overflow-y: auto;
+        }
+        
+        .admin-title {
+            text-align: center;
+            font-size: 1.8rem;
+            margin-bottom: 20px;
+            color: var(--gold);
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+        
+        .admin-controls {
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+        }
+        
+        .leader-form {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+            margin-bottom: 20px;
+            padding: 15px;
+            background: rgba(0, 0, 0, 0.5);
+            border-radius: 8px;
+            border: 1px solid var(--dark-gold);
+        }
+        
+        .leader-input {
+            flex: 1;
+            min-width: 150px;
+            padding: 8px;
+            background: rgba(0, 0, 0, 0.7);
+            border: 1px solid var(--dark-gold);
+            border-radius: 5px;
+            color: var(--paper);
+        }
+        
+        .time-inputs {
+            display: flex;
+            gap: 5px;
+        }
+        
+        .time-input {
+            width: 70px;
+            padding: 8px;
+            background: rgba(0, 0, 0, 0.7);
+            border: 1px solid var(--dark-gold);
+            border-radius: 5px;
+            color: var(--paper);
+        }
+        
+        .add-leader-btn, .save-leaders-btn {
+            background: linear-gradient(45deg, var(--dark-gold), var(--gold));
+            color: var(--black);
+            padding: 10px 20px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-weight: bold;
+            transition: all 0.3s ease;
+        }
+        
+        .add-leader-btn:hover, .save-leaders-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 10px rgba(255, 215, 0, 0.4);
+        }
+        
+        .leaders-list {
+            max-height: 300px;
+            overflow-y: auto;
+            margin-bottom: 20px;
+            border: 1px solid var(--dark-gold);
+            border-radius: 8px;
+            padding: 10px;
+            background: rgba(0, 0, 0, 0.5);
+        }
+        
+        .leader-item {
+            display: flex;
+            align-items: center;
+            padding: 10px;
+            margin-bottom: 8px;
+            background: rgba(0, 0, 0, 0.7);
+            border: 1px solid var(--dark-gold);
+            border-radius: 5px;
+        }
+        
+        .leader-item:last-child {
+            margin-bottom: 0;
+        }
+        
+        .leader-item .user-name {
+            flex: 1;
+            margin-right: 10px;
+        }
+        
+        .leader-item .user-time {
+            margin-right: 10px;
+        }
+        
+        .remove-leader-btn {
+            background: var(--red);
+            color: white;
+            border: none;
+            border-radius: 3px;
+            padding: 5px 10px;
+            cursor: pointer;
+        }
+        
+        .close-admin-btn {
+            position: absolute;
+            top: 10px;
+            right: 15px;
+            font-size: 1.5rem;
+            color: var(--gold);
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+        
+        .close-admin-btn:hover {
+            transform: rotate(90deg);
+            color: var(--paper);
+        }
+        
         /* Остальные стили остаются без изменений */
         .container {
             max-width: 1200px;
@@ -1564,6 +1855,9 @@
     <!-- Красные частицы -->
     <div class="red-particles" id="redParticles"></div>
     
+    <!-- Гирлянда вокруг сайта -->
+    <div class="garland-border" id="garlandBorder"></div>
+    
     <!-- Выбор времен года -->
     <div class="season-selector">
         <div class="season-title">Время года</div>
@@ -1605,6 +1899,40 @@
             <h2 class="result-title">Результат</h2>
             <div class="result-prize" id="resultPrize">Ничего</div>
             <p>Попробуйте еще раз через 24 часа!</p>
+        </div>
+    </div>
+    
+    <!-- Модальное окно авторизации -->
+    <div class="auth-modal" id="authModal">
+        <div class="auth-content">
+            <h2 class="auth-title">Авторизация</h2>
+            <input type="text" id="loginInput" class="auth-input" placeholder="Логин">
+            <input type="password" id="passwordInput" class="auth-input" placeholder="Пароль">
+            <div class="auth-error" id="authError">Неверный логин или пароль!</div>
+            <button class="auth-btn" id="loginBtn">Войти</button>
+        </div>
+    </div>
+    
+    <!-- Панель управления лидерами -->
+    <div class="admin-panel" id="adminPanel">
+        <span class="close-admin-btn" id="closeAdminPanel">&times;</span>
+        <h2 class="admin-title">Управление лидерами</h2>
+        <div class="admin-controls">
+            <div class="leader-form">
+                <input type="text" id="leaderName" class="leader-input" placeholder="Имя пользователя">
+                <div class="time-inputs">
+                    <input type="number" id="leaderHours" class="time-input" placeholder="Часы" min="0">
+                    <input type="number" id="leaderMinutes" class="time-input" placeholder="Минуты" min="0" max="59">
+                    <input type="number" id="leaderSeconds" class="time-input" placeholder="Секунды" min="0" max="59">
+                </div>
+                <button class="add-leader-btn" id="addLeaderBtn">Добавить</button>
+            </div>
+            
+            <div class="leaders-list" id="leadersList">
+                <!-- Список лидеров будет заполняться динамически -->
+            </div>
+            
+            <button class="save-leaders-btn" id="saveLeadersBtn">Сохранить изменения</button>
         </div>
     </div>
     
@@ -1656,46 +1984,11 @@
         <section class="leaderboard-section">
             <div class="stamp"></div>
             <div class="leaderboard-header">
-                <h2 class="leaderboard-title">Voice Call Leaderboard</h2>
-                <p>Топ 9 самых активных участников</p>
+                <h2 class="leaderboard-title" id="leaderboardTitle">Voice Call Leaderboard</h2>
+                <p id="leaderboardSubtitle">Топ 9 самых активных участников</p>
             </div>
-            <ul class="leaderboard-list">
-                <li class="leaderboard-item">
-                    <span class="user-name">@Даня</span>
-                    <span class="user-time">1,830h 11m 46s</span>
-                </li>
-                <li class="leaderboard-item">
-                    <span class="user-name">@Кипис</span>
-                    <span class="user-time">1,439h 37m 45s</span>
-                </li>
-                <li class="leaderboard-item">
-                    <span class="user-name">@Теенси</span>
-                    <span class="user-time">1,216h 13m 15s</span>
-                </li>
-                <li class="leaderboard-item">
-                    <span class="user-name">@Александр</span>
-                    <span class="user-time">897h 43m 17s</span>
-                </li>
-                <li class="leaderboard-item">
-                    <span class="user-name">@Яла</span>
-                    <span class="user-time">164h 45m 11s</span>
-                </li>
-                <li class="leaderboard-item">
-                    <span class="user-name">@но...</span>
-                    <span class="user-time">123h 38m 43s</span>
-                </li>
-                <li class="leaderboard-item">
-                    <span class="user-name">@Lxrderus?</span>
-                    <span class="user-time">89h 50m 32s</span>
-                </li>
-                <li class="leaderboard-item">
-                    <span class="user-name">@.suicidenote</span>
-                    <span class="user-time">50h 32m 33s</span>
-                </li>
-                <li class="leaderboard-item">
-                    <span class="user-name">@Акакике</span>
-                    <span class="user-time">48h 35m 18s</span>
-                </li>
+            <ul class="leaderboard-list" id="leaderboardList">
+                <!-- Лидеры будут загружены через JavaScript -->
             </ul>
         </section>
         
@@ -1852,6 +2145,10 @@
                     <i class="fab fa-steam"></i>
                     <div class="social-tooltip">Наш Steam профиль</div>
                 </a>
+                <div class="login-btn" id="loginButton">
+                    <i class="fas fa-user-cog"></i>
+                    <div class="login-tooltip">Панель управления</div>
+                </div>
             </div>
             <p class="copyright">© 2023 КИНОТЕАТР Discord Сервер. Все права защищены.</p>
         </footer>
@@ -2032,6 +2329,7 @@
         const springEffect = document.getElementById('springEffect');
         const summerEffect = document.getElementById('summerEffect');
         const autumnEffect = document.getElementById('autumnEffect');
+        const garlandBorder = document.getElementById('garlandBorder');
         
         // Создание эффектов для времен года
         function createSeasonEffects() {
@@ -2088,6 +2386,58 @@
                 leaf.style.borderRadius = `${Math.random() * 50}% ${Math.random() * 50}% ${Math.random() * 50}% ${Math.random() * 50}%`;
                 leafContainer.appendChild(leaf);
             }
+            
+            // Создание гирлянды вокруг сайта
+            createGarlandBorder();
+        }
+        
+        // Функция для создания гирлянды вокруг сайта
+        function createGarlandBorder() {
+            const colors = ['#FF0000', '#00FF00', '#0000FF', '#FFFF00', '#FF00FF', '#00FFFF'];
+            
+            // Верхняя граница
+            for (let i = 0; i < 30; i++) {
+                const light = document.createElement('div');
+                light.classList.add('garland-light');
+                light.style.top = '0';
+                light.style.left = `${(i / 30) * 100}%`;
+                light.style.backgroundColor = colors[Math.floor(Math.random() * colors.length)];
+                light.style.animationDelay = `${Math.random() * 2}s`;
+                garlandBorder.appendChild(light);
+            }
+            
+            // Правая граница
+            for (let i = 0; i < 15; i++) {
+                const light = document.createElement('div');
+                light.classList.add('garland-light');
+                light.style.top = `${(i / 15) * 100}%`;
+                light.style.right = '0';
+                light.style.backgroundColor = colors[Math.floor(Math.random() * colors.length)];
+                light.style.animationDelay = `${Math.random() * 2}s`;
+                garlandBorder.appendChild(light);
+            }
+            
+            // Нижняя граница
+            for (let i = 0; i < 30; i++) {
+                const light = document.createElement('div');
+                light.classList.add('garland-light');
+                light.style.bottom = '0';
+                light.style.left = `${(i / 30) * 100}%`;
+                light.style.backgroundColor = colors[Math.floor(Math.random() * colors.length)];
+                light.style.animationDelay = `${Math.random() * 2}s`;
+                garlandBorder.appendChild(light);
+            }
+            
+            // Левая граница
+            for (let i = 0; i < 15; i++) {
+                const light = document.createElement('div');
+                light.classList.add('garland-light');
+                light.style.top = `${(i / 15) * 100}%`;
+                light.style.left = '0';
+                light.style.backgroundColor = colors[Math.floor(Math.random() * colors.length)];
+                light.style.animationDelay = `${Math.random() * 2}s`;
+                garlandBorder.appendChild(light);
+            }
         }
         
         // Функция для смены времени года
@@ -2098,6 +2448,7 @@
             springEffect.classList.remove('active');
             summerEffect.classList.remove('active');
             autumnEffect.classList.remove('active');
+            garlandBorder.classList.remove('active');
             
             // Активация выбранного времени года
             document.querySelector(`[data-season="${season}"]`).classList.add('active');
@@ -2105,6 +2456,7 @@
             switch(season) {
                 case 'winter':
                     winterEffect.classList.add('active');
+                    garlandBorder.classList.add('active');
                     break;
                 case 'spring':
                     springEffect.classList.add('active');
@@ -2131,6 +2483,230 @@
         
         // Установка начального времени года (зима)
         changeSeason('winter');
+        
+        // Логика для авторизации и управления лидерами
+        const loginButton = document.getElementById('loginButton');
+        const authModal = document.getElementById('authModal');
+        const loginInput = document.getElementById('loginInput');
+        const passwordInput = document.getElementById('passwordInput');
+        const loginBtn = document.getElementById('loginBtn');
+        const authError = document.getElementById('authError');
+        const adminPanel = document.getElementById('adminPanel');
+        const closeAdminPanel = document.getElementById('closeAdminPanel');
+        const leaderName = document.getElementById('leaderName');
+        const leaderHours = document.getElementById('leaderHours');
+        const leaderMinutes = document.getElementById('leaderMinutes');
+        const leaderSeconds = document.getElementById('leaderSeconds');
+        const addLeaderBtn = document.getElementById('addLeaderBtn');
+        const leadersList = document.getElementById('leadersList');
+        const saveLeadersBtn = document.getElementById('saveLeadersBtn');
+        const leaderboardTitle = document.getElementById('leaderboardTitle');
+        const leaderboardSubtitle = document.getElementById('leaderboardSubtitle');
+        
+        // Исходные данные лидеров
+        let leaders = [
+            { name: "@Даня", time: "1,830h 11m 46s" },
+            { name: "@Кипис", time: "1,439h 37m 45s" },
+            { name: "@Теенси", time: "1,216h 13m 15s" },
+            { name: "@Александр", time: "897h 43m 17s" },
+            { name: "@Яла", time: "164h 45m 11s" },
+            { name: "@но...", time: "123h 38m 43s" },
+            { name: "@Lxrderus?", time: "89h 50m 32s" },
+            { name: "@.suicidenote", time: "50h 32m 33s" },
+            { name: "@Акакике", time: "48h 35m 18s" }
+        ];
+        
+        // Функция для отрисовки лидеров на сайте
+        function renderLeaders() {
+            const leaderboardList = document.getElementById('leaderboardList');
+            leaderboardList.innerHTML = '';
+            
+            leaders.forEach((leader, index) => {
+                const listItem = document.createElement('li');
+                listItem.className = 'leaderboard-item';
+                listItem.style.animationDelay = `${(index + 1) * 0.1}s`;
+                
+                listItem.innerHTML = `
+                    <span class="user-name">${leader.name}</span>
+                    <span class="user-time">${leader.time}</span>
+                `;
+                
+                leaderboardList.appendChild(listItem);
+            });
+            
+            // Обновляем заголовок в зависимости от количества лидеров
+            const count = leaders.length;
+            leaderboardTitle.textContent = `Voice Call Leaderboard`;
+            leaderboardSubtitle.textContent = `Топ ${count} самых активных участников`;
+            
+            // Запускаем анимацию появления
+            setTimeout(() => {
+                document.querySelectorAll('.leaderboard-item').forEach(el => {
+                    el.style.animationPlayState = 'running';
+                });
+            }, 100);
+        }
+        
+        // Функция для отрисовки лидеров в панели управления
+        function renderLeadersInAdmin() {
+            leadersList.innerHTML = '';
+            
+            leaders.forEach((leader, index) => {
+                const leaderItem = document.createElement('div');
+                leaderItem.className = 'leader-item';
+                
+                // Разбираем время на часы, минуты и секунды
+                const timeParts = leader.time.split(/[hm]/);
+                let hours = timeParts[0].replace(',', '');
+                let minutes = timeParts[1].trim();
+                let seconds = timeParts[2].replace('s', '').trim();
+                
+                leaderItem.innerHTML = `
+                    <input type="text" class="leader-input user-name" value="${leader.name}" data-index="${index}">
+                    <div class="time-inputs">
+                        <input type="number" class="time-input" value="${hours}" placeholder="Часы" min="0" data-index="${index}" data-type="hours">
+                        <input type="number" class="time-input" value="${minutes}" placeholder="Минуты" min="0" max="59" data-index="${index}" data-type="minutes">
+                        <input type="number" class="time-input" value="${seconds}" placeholder="Секунды" min="0" max="59" data-index="${index}" data-type="seconds">
+                    </div>
+                    <button class="remove-leader-btn" data-index="${index}">Удалить</button>
+                `;
+                
+                leadersList.appendChild(leaderItem);
+            });
+            
+            // Добавляем обработчики для удаления лидеров
+            document.querySelectorAll('.remove-leader-btn').forEach(btn => {
+                btn.addEventListener('click', function() {
+                    const index = parseInt(this.getAttribute('data-index'));
+                    leaders.splice(index, 1);
+                    renderLeadersInAdmin();
+                });
+            });
+            
+            // Добавляем обработчики для изменения данных лидеров
+            document.querySelectorAll('.leader-input, .time-input').forEach(input => {
+                input.addEventListener('change', function() {
+                    const index = parseInt(this.getAttribute('data-index'));
+                    const type = this.getAttribute('data-type');
+                    
+                    if (type) {
+                        // Обновляем время
+                        if (type === 'hours') {
+                            // Форматируем часы с разделителями тысяч
+                            const hoursValue = parseInt(this.value) || 0;
+                            leaders[index].time = leaders[index].time.replace(/^\d+,?\d*h/, `${hoursValue.toLocaleString()}h`);
+                        } else if (type === 'minutes') {
+                            leaders[index].time = leaders[index].time.replace(/\d+m/, `${this.value}m`);
+                        } else if (type === 'seconds') {
+                            leaders[index].time = leaders[index].time.replace(/\d+s/, `${this.value}s`);
+                        }
+                    } else {
+                        // Обновляем имя
+                        leaders[index].name = this.value;
+                    }
+                });
+            });
+        }
+        
+        // Функция для добавления нового лидера
+        function addNewLeader() {
+            const name = leaderName.value.trim();
+            const hours = parseInt(leaderHours.value) || 0;
+            const minutes = parseInt(leaderMinutes.value) || 0;
+            const seconds = parseInt(leaderSeconds.value) || 0;
+            
+            if (!name) {
+                alert('Введите имя пользователя!');
+                return;
+            }
+            
+            // Форматируем время
+            const formattedHours = hours.toLocaleString();
+            const formattedMinutes = minutes.toString().padStart(2, '0');
+            const formattedSeconds = seconds.toString().padStart(2, '0');
+            const time = `${formattedHours}h ${formattedMinutes}m ${formattedSeconds}s`;
+            
+            // Добавляем нового лидера
+            leaders.push({ name, time });
+            
+            // Очищаем поля ввода
+            leaderName.value = '';
+            leaderHours.value = '';
+            leaderMinutes.value = '';
+            leaderSeconds.value = '';
+            
+            // Обновляем отображение
+            renderLeadersInAdmin();
+        }
+        
+        // Функция для сохранения изменений
+        function saveLeaders() {
+            // Сортируем лидеров по убыванию времени
+            leaders.sort((a, b) => {
+                const aTime = parseInt(a.time.split('h')[0].replace(',', ''));
+                const bTime = parseInt(b.time.split('h')[0].replace(',', ''));
+                return bTime - aTime;
+            });
+            
+            // Сохраняем в localStorage
+            localStorage.setItem('leadersData', JSON.stringify(leaders));
+            
+            // Обновляем отображение на сайте
+            renderLeaders();
+            
+            // Закрываем панель управления
+            adminPanel.style.display = 'none';
+            
+            alert('Изменения сохранены!');
+        }
+        
+        // Функция для загрузки данных из localStorage
+        function loadLeadersFromStorage() {
+            const savedLeaders = localStorage.getItem('leadersData');
+            if (savedLeaders) {
+                leaders = JSON.parse(savedLeaders);
+            }
+        }
+        
+        // Обработчики событий для авторизации
+        loginButton.addEventListener('click', () => {
+            authModal.style.display = 'flex';
+        });
+        
+        loginBtn.addEventListener('click', () => {
+            const login = loginInput.value;
+            const password = passwordInput.value;
+            
+            if (login === '5' && password === '5') {
+                authModal.style.display = 'none';
+                adminPanel.style.display = 'block';
+                renderLeadersInAdmin();
+                authError.style.display = 'none';
+            } else {
+                authError.style.display = 'block';
+            }
+        });
+        
+        closeAdminPanel.addEventListener('click', () => {
+            adminPanel.style.display = 'none';
+        });
+        
+        addLeaderBtn.addEventListener('click', addNewLeader);
+        saveLeadersBtn.addEventListener('click', saveLeaders);
+        
+        // Закрытие модальных окон при клике вне их
+        window.addEventListener('click', (e) => {
+            if (e.target === authModal) {
+                authModal.style.display = 'none';
+            }
+            if (e.target === adminPanel) {
+                adminPanel.style.display = 'none';
+            }
+        });
+        
+        // Инициализация при загрузке страницы
+        loadLeadersFromStorage();
+        renderLeaders();
     </script>
 </body>
 </html>
