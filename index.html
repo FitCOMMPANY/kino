@@ -1,0 +1,1578 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>КИНОТЕАТР - Discord сервер</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        :root {
+            --gold: #FFD700;
+            --dark-gold: #B8860B;
+            --black: #000000;
+            --dark-gray: #1A1A1A;
+            --light-gray: #333333;
+            --paper: #F5F5DC;
+        }
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Times New Roman', serif;
+        }
+        
+        body {
+            background-color: var(--black);
+            color: var(--gold);
+            overflow-x: hidden;
+            position: relative;
+        }
+        
+        body::before {
+            content: "";
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: 
+                radial-gradient(circle at 20% 30%, rgba(184, 134, 11, 0.1) 0%, transparent 50%),
+                radial-gradient(circle at 80% 70%, rgba(184, 134, 11, 0.1) 0%, transparent 50%),
+                radial-gradient(circle at 40% 80%, rgba(184, 134, 11, 0.1) 0%, transparent 50%);
+            z-index: -1;
+            animation: pulse 15s infinite alternate;
+        }
+        
+        @keyframes pulse {
+            0% { opacity: 0.3; }
+            100% { opacity: 0.7; }
+        }
+        
+        .newspaper-texture {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-image: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="100" height="100" opacity="0.05"><rect width="100" height="100" fill="none" stroke="%23FFD700" stroke-width="2"/></svg>');
+            z-index: -1;
+            opacity: 0.1;
+        }
+        
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+        
+        header {
+            text-align: center;
+            padding: 40px 0;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .header-bg {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(45deg, transparent 30%, rgba(255, 215, 0, 0.1) 50%, transparent 70%);
+            animation: shine 8s infinite linear;
+            z-index: -1;
+        }
+        
+        @keyframes shine {
+            0% { transform: translateX(-100%); }
+            100% { transform: translateX(100%); }
+        }
+        
+        h1 {
+            font-size: 4.5rem;
+            text-transform: uppercase;
+            letter-spacing: 8px;
+            margin-bottom: 20px;
+            text-shadow: 0 0 10px var(--gold), 0 0 20px var(--gold);
+            animation: flicker 5s infinite alternate;
+            position: relative;
+            display: inline-block;
+        }
+        
+        @keyframes flicker {
+            0%, 19%, 21%, 23%, 25%, 54%, 56%, 100% {
+                text-shadow: 0 0 10px var(--gold), 0 0 20px var(--gold), 0 0 30px var(--dark-gold);
+                opacity: 1;
+            }
+            20%, 24%, 55% {
+                text-shadow: none;
+                opacity: 0.8;
+            }
+        }
+        
+        h1::after {
+            content: "";
+            position: absolute;
+            bottom: -10px;
+            left: 10%;
+            width: 80%;
+            height: 3px;
+            background: linear-gradient(90deg, transparent, var(--gold), transparent);
+            animation: linePulse 3s infinite;
+        }
+        
+        @keyframes linePulse {
+            0%, 100% { opacity: 0.5; }
+            50% { opacity: 1; }
+        }
+        
+        .subtitle {
+            font-size: 1.5rem;
+            margin-bottom: 30px;
+            font-style: italic;
+            letter-spacing: 2px;
+            color: var(--paper);
+            animation: fadeIn 2s ease-out;
+        }
+        
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        
+        .discord-btn {
+            display: inline-block;
+            background: linear-gradient(45deg, var(--dark-gold), var(--gold));
+            color: var(--black);
+            padding: 15px 30px;
+            border-radius: 50px;
+            text-decoration: none;
+            font-weight: bold;
+            font-size: 1.2rem;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            transition: all 0.3s ease;
+            box-shadow: 0 5px 15px rgba(255, 215, 0, 0.4);
+            animation: pulseBtn 2s infinite;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .discord-btn::before {
+            content: "";
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.4), transparent);
+            transition: 0.5s;
+        }
+        
+        .discord-btn:hover::before {
+            left: 100%;
+        }
+        
+        .discord-btn:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 20px rgba(255, 215, 0, 0.6);
+        }
+        
+        @keyframes pulseBtn {
+            0%, 100% { transform: scale(1); }
+            50% { transform: scale(1.05); }
+        }
+        
+        .games-section {
+            margin: 60px 0;
+            padding: 40px;
+            background: rgba(26, 26, 26, 0.8);
+            border: 2px solid var(--gold);
+            border-radius: 10px;
+            box-shadow: 0 0 20px rgba(255, 215, 0, 0.3);
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .games-section::before {
+            content: "";
+            position: absolute;
+            top: -10px;
+            left: -10px;
+            right: -10px;
+            bottom: -10px;
+            border: 1px solid var(--gold);
+            border-radius: 15px;
+            animation: borderGlow 3s infinite alternate;
+            z-index: -1;
+        }
+        
+        @keyframes borderGlow {
+            0% { box-shadow: 0 0 10px var(--gold); }
+            100% { box-shadow: 0 0 30px var(--gold); }
+        }
+        
+        h2 {
+            font-size: 2.5rem;
+            text-align: center;
+            margin-bottom: 30px;
+            text-transform: uppercase;
+            letter-spacing: 4px;
+            position: relative;
+            display: inline-block;
+            left: 50%;
+            transform: translateX(-50%);
+        }
+        
+        h2::after {
+            content: "";
+            position: absolute;
+            bottom: -10px;
+            left: 0;
+            width: 100%;
+            height: 2px;
+            background: linear-gradient(90deg, transparent, var(--gold), transparent);
+        }
+        
+        .games-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 30px;
+            margin-top: 40px;
+        }
+        
+        .game-card {
+            background: rgba(0, 0, 0, 0.7);
+            border: 1px solid var(--dark-gold);
+            border-radius: 10px;
+            padding: 20px;
+            text-align: center;
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .game-card::before {
+            content: "";
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(45deg, transparent 30%, rgba(255, 215, 0, 0.1) 50%, transparent 70%);
+            transform: translateX(-100%);
+            transition: transform 0.6s;
+        }
+        
+        .game-card:hover::before {
+            transform: translateX(100%);
+        }
+        
+        .game-card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 10px 20px rgba(255, 215, 0, 0.3);
+            border-color: var(--gold);
+        }
+        
+        .game-icon {
+            font-size: 3rem;
+            margin-bottom: 15px;
+            color: var(--gold);
+            text-shadow: 0 0 10px var(--gold);
+        }
+        
+        .game-card h3 {
+            font-size: 1.5rem;
+            margin-bottom: 10px;
+            color: var(--paper);
+        }
+        
+        .leaderboard-section {
+            margin: 60px 0;
+            padding: 40px;
+            background: rgba(26, 26, 26, 0.8);
+            border: 2px solid var(--gold);
+            border-radius: 10px;
+            box-shadow: 0 0 20px rgba(255, 215, 0, 0.3);
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .leaderboard-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 30px;
+            flex-wrap: wrap;
+        }
+        
+        .leaderboard-title {
+            font-size: 2.5rem;
+            text-transform: uppercase;
+            letter-spacing: 4px;
+            position: relative;
+        }
+        
+        .leaderboard-title::after {
+            content: "";
+            position: absolute;
+            bottom: -10px;
+            left: 0;
+            width: 100%;
+            height: 2px;
+            background: linear-gradient(90deg, transparent, var(--gold), transparent);
+        }
+        
+        .leaderboard-list {
+            list-style: none;
+            counter-reset: leaderboard-counter;
+        }
+        
+        .leaderboard-item {
+            display: flex;
+            align-items: center;
+            padding: 15px 20px;
+            margin-bottom: 15px;
+            background: rgba(0, 0, 0, 0.5);
+            border: 1px solid var(--dark-gold);
+            border-radius: 10px;
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+            animation: slideIn 0.5s ease-out forwards;
+            opacity: 0;
+            transform: translateX(-50px);
+        }
+        
+        @keyframes slideIn {
+            to {
+                opacity: 1;
+                transform: translateX(0);
+            }
+        }
+        
+        .leaderboard-item:nth-child(1) { animation-delay: 0.1s; }
+        .leaderboard-item:nth-child(2) { animation-delay: 0.2s; }
+        .leaderboard-item:nth-child(3) { animation-delay: 0.3s; }
+        .leaderboard-item:nth-child(4) { animation-delay: 0.4s; }
+        .leaderboard-item:nth-child(5) { animation-delay: 0.5s; }
+        .leaderboard-item:nth-child(6) { animation-delay: 0.6s; }
+        .leaderboard-item:nth-child(7) { animation-delay: 0.7s; }
+        .leaderboard-item:nth-child(8) { animation-delay: 0.8s; }
+        .leaderboard-item:nth-child(9) { animation-delay: 0.9s; }
+        
+        .leaderboard-item::before {
+            counter-increment: leaderboard-counter;
+            content: counter(leaderboard-counter);
+            font-size: 1.5rem;
+            font-weight: bold;
+            color: var(--gold);
+            margin-right: 20px;
+            min-width: 30px;
+            text-align: center;
+        }
+        
+        .leaderboard-item:hover {
+            transform: translateX(10px);
+            border-color: var(--gold);
+            box-shadow: 0 5px 15px rgba(255, 215, 0, 0.2);
+        }
+        
+        .leaderboard-item:nth-child(1) {
+            background: linear-gradient(90deg, rgba(184, 134, 11, 0.3), transparent);
+            border-color: var(--gold);
+        }
+        
+        .leaderboard-item:nth-child(2) {
+            background: linear-gradient(90deg, rgba(160, 120, 10, 0.2), transparent);
+        }
+        
+        .leaderboard-item:nth-child(3) {
+            background: linear-gradient(90deg, rgba(140, 100, 8, 0.2), transparent);
+        }
+        
+        .user-name {
+            font-size: 1.3rem;
+            font-weight: bold;
+            color: var(--paper);
+            flex-grow: 1;
+        }
+        
+        .user-time {
+            font-size: 1.2rem;
+            color: var(--gold);
+            font-family: 'Courier New', monospace;
+        }
+        
+        .donate-section {
+            margin: 60px 0;
+            padding: 40px;
+            background: rgba(26, 26, 26, 0.8);
+            border: 2px solid var(--gold);
+            border-radius: 10px;
+            box-shadow: 0 0 20px rgba(255, 215, 0, 0.3);
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .donate-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 30px;
+            margin-top: 40px;
+        }
+        
+        .donate-card {
+            background: rgba(0, 0, 0, 0.7);
+            border: 1px solid var(--dark-gold);
+            border-radius: 10px;
+            padding: 25px;
+            text-align: center;
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .donate-card::before {
+            content: "";
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(45deg, transparent 30%, rgba(255, 215, 0, 0.1) 50%, transparent 70%);
+            transform: translateX(-100%);
+            transition: transform 0.6s;
+        }
+        
+        .donate-card:hover::before {
+            transform: translateX(100%);
+        }
+        
+        .donate-card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 10px 20px rgba(255, 215, 0, 0.3);
+            border-color: var(--gold);
+        }
+        
+        .donate-icon {
+            font-size: 3rem;
+            margin-bottom: 15px;
+            color: var(--gold);
+            text-shadow: 0 0 10px var(--gold);
+        }
+        
+        .donate-card h3 {
+            font-size: 1.8rem;
+            margin-bottom: 10px;
+            color: var(--paper);
+        }
+        
+        .donate-price {
+            font-size: 1.5rem;
+            color: var(--gold);
+            margin-bottom: 15px;
+            font-weight: bold;
+        }
+        
+        .donate-features {
+            list-style: none;
+            margin: 20px 0;
+            text-align: left;
+        }
+        
+        .donate-features li {
+            padding: 8px 0;
+            color: var(--paper);
+            position: relative;
+            padding-left: 25px;
+        }
+        
+        .donate-features li::before {
+            content: "★";
+            position: absolute;
+            left: 0;
+            color: var(--gold);
+        }
+        
+        .donate-btn {
+            display: inline-block;
+            background: linear-gradient(45deg, var(--dark-gold), var(--gold));
+            color: var(--black);
+            padding: 12px 25px;
+            border-radius: 50px;
+            text-decoration: none;
+            font-weight: bold;
+            font-size: 1.1rem;
+            transition: all 0.3s ease;
+            border: none;
+            cursor: pointer;
+            margin-top: 10px;
+        }
+        
+        .donate-btn:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 5px 15px rgba(255, 215, 0, 0.4);
+        }
+        
+        .roulette-section {
+            margin: 60px 0;
+            padding: 40px;
+            background: rgba(26, 26, 26, 0.8);
+            border: 2px solid var(--gold);
+            border-radius: 10px;
+            box-shadow: 0 0 20px rgba(255, 215, 0, 0.3);
+            position: relative;
+            overflow: hidden;
+            text-align: center;
+        }
+        
+        .roulette-container {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 30px;
+            margin-top: 30px;
+        }
+        
+        .wheel-container {
+            position: relative;
+            width: 350px;
+            height: 350px;
+            margin: 0 auto;
+        }
+        
+        .wheel {
+            width: 100%;
+            height: 100%;
+            border-radius: 50%;
+            position: relative;
+            transition: transform 4s cubic-bezier(0.2, 0.8, 0.3, 1);
+            box-shadow: 0 0 25px rgba(255, 215, 0, 0.5);
+            background: conic-gradient(
+                from 0deg,
+                #8B0000 0deg 30deg,
+                #1A1A1A 30deg 60deg,
+                #8B0000 60deg 90deg,
+                #1A1A1A 90deg 120deg,
+                #8B0000 120deg 150deg,
+                #1A1A1A 150deg 180deg,
+                #8B0000 180deg 210deg,
+                #1A1A1A 210deg 240deg,
+                #8B0000 240deg 270deg,
+                #1A1A1A 270deg 300deg,
+                #8B0000 300deg 330deg,
+                #1A1A1A 330deg 360deg
+            );
+        }
+        
+        .wheel-center {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            width: 60px;
+            height: 60px;
+            background: var(--gold);
+            border-radius: 50%;
+            z-index: 5;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            box-shadow: 0 0 15px var(--gold);
+            font-weight: bold;
+            color: var(--black);
+        }
+        
+        .wheel-pointer {
+            position: absolute;
+            top: -20px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 30px;
+            height: 40px;
+            background: var(--gold);
+            clip-path: polygon(50% 100%, 0 0, 100% 0);
+            z-index: 10;
+            filter: drop-shadow(0 0 5px var(--gold));
+        }
+        
+        .wheel-item {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            text-align: center;
+            transform-origin: center;
+            color: var(--paper);
+            font-weight: bold;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        
+        .wheel-text {
+            transform: rotate(90deg);
+            font-size: 0.9rem;
+            position: absolute;
+            width: 120px;
+            text-align: center;
+        }
+        
+        .spin-btn {
+            background: linear-gradient(45deg, var(--dark-gold), var(--gold));
+            color: var(--black);
+            padding: 15px 40px;
+            border-radius: 50px;
+            border: none;
+            font-weight: bold;
+            font-size: 1.2rem;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            box-shadow: 0 5px 15px rgba(255, 215, 0, 0.4);
+            text-transform: uppercase;
+            letter-spacing: 2px;
+        }
+        
+        .spin-btn:hover:not(:disabled) {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 20px rgba(255, 215, 0, 0.6);
+        }
+        
+        .spin-btn:disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
+        }
+        
+        .timer {
+            font-size: 1.2rem;
+            color: var(--paper);
+            margin-top: 10px;
+        }
+        
+        .result-modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.8);
+            z-index: 1000;
+            justify-content: center;
+            align-items: center;
+        }
+        
+        .result-content {
+            background: var(--dark-gray);
+            border: 2px solid var(--gold);
+            border-radius: 10px;
+            padding: 30px;
+            max-width: 500px;
+            width: 90%;
+            text-align: center;
+            position: relative;
+            box-shadow: 0 0 30px rgba(255, 215, 0, 0.5);
+            animation: modalAppear 0.5s ease-out;
+        }
+        
+        @keyframes modalAppear {
+            from {
+                opacity: 0;
+                transform: scale(0.8) translateY(-50px);
+            }
+            to {
+                opacity: 1;
+                transform: scale(1) translateY(0);
+            }
+        }
+        
+        .close-modal {
+            position: absolute;
+            top: 10px;
+            right: 15px;
+            font-size: 1.5rem;
+            color: var(--gold);
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+        
+        .close-modal:hover {
+            transform: rotate(90deg);
+            color: var(--paper);
+        }
+        
+        .result-title {
+            font-size: 2rem;
+            margin-bottom: 20px;
+            color: var(--gold);
+            text-shadow: 0 0 10px var(--gold);
+        }
+        
+        .result-prize {
+            font-size: 1.8rem;
+            font-weight: bold;
+            color: var(--paper);
+            margin: 20px 0;
+            padding: 15px;
+            border: 2px dashed var(--gold);
+            border-radius: 10px;
+            background: rgba(0, 0, 0, 0.5);
+        }
+        
+        .about-section {
+            margin: 60px 0;
+            padding: 40px;
+            background: rgba(26, 26, 26, 0.8);
+            border: 2px solid var(--gold);
+            border-radius: 10px;
+            box-shadow: 0 0 20px rgba(255, 215, 0, 0.3);
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .about-content {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 40px;
+            align-items: center;
+        }
+        
+        .about-text {
+            flex: 1;
+            min-width: 300px;
+        }
+        
+        .about-text p {
+            font-size: 1.2rem;
+            line-height: 1.6;
+            margin-bottom: 20px;
+            color: var(--paper);
+        }
+        
+        .about-image {
+            flex: 1;
+            min-width: 300px;
+            height: 300px;
+            background: linear-gradient(45deg, var(--dark-gold), var(--gold));
+            border-radius: 10px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            position: relative;
+            overflow: hidden;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
+        }
+        
+        .about-image::before {
+            content: "";
+            position: absolute;
+            width: 150%;
+            height: 150%;
+            background: conic-gradient(transparent, var(--gold), transparent, var(--dark-gold), transparent);
+            animation: rotate 10s linear infinite;
+        }
+        
+        .about-image::after {
+            content: "КИНОТЕАТР";
+            position: absolute;
+            width: calc(100% - 10px);
+            height: calc(100% - 10px);
+            background: var(--black);
+            border-radius: 8px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            font-size: 2.5rem;
+            font-weight: bold;
+            letter-spacing: 5px;
+            text-shadow: 0 0 10px var(--gold);
+        }
+        
+        @keyframes rotate {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+        
+        .admin-contact-section {
+            text-align: center;
+            margin: 60px 0;
+            padding: 40px;
+            background: rgba(26, 26, 26, 0.8);
+            border: 2px solid var(--gold);
+            border-radius: 10px;
+            box-shadow: 0 0 20px rgba(255, 215, 0, 0.3);
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .admin-contact-section::before {
+            content: "";
+            position: absolute;
+            top: -10px;
+            left: -10px;
+            right: -10px;
+            bottom: -10px;
+            border: 1px solid var(--gold);
+            border-radius: 15px;
+            animation: borderGlow 3s infinite alternate;
+            z-index: -1;
+        }
+        
+        .admin-contact-btn {
+            display: inline-block;
+            background: linear-gradient(45deg, var(--dark-gold), var(--gold));
+            color: var(--black);
+            padding: 15px 40px;
+            border-radius: 50px;
+            text-decoration: none;
+            font-weight: bold;
+            font-size: 1.3rem;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            transition: all 0.3s ease;
+            box-shadow: 0 5px 15px rgba(255, 215, 0, 0.4);
+            animation: pulseBtn 2s infinite;
+            position: relative;
+            overflow: hidden;
+            margin-top: 20px;
+        }
+        
+        .admin-contact-btn::before {
+            content: "";
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.4), transparent);
+            transition: 0.5s;
+        }
+        
+        .admin-contact-btn:hover::before {
+            left: 100%;
+        }
+        
+        .admin-contact-btn:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 20px rgba(255, 215, 0, 0.6);
+        }
+        
+        footer {
+            text-align: center;
+            padding: 40px 0;
+            margin-top: 60px;
+            border-top: 1px solid var(--dark-gold);
+            position: relative;
+        }
+        
+        footer::before {
+            content: "";
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 1px;
+            background: linear-gradient(90deg, transparent, var(--gold), transparent);
+        }
+        
+        .social-links {
+            display: flex;
+            justify-content: center;
+            gap: 20px;
+            margin: 20px 0;
+        }
+        
+        .social-link {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            width: 50px;
+            height: 50px;
+            background: var(--dark-gray);
+            border: 1px solid var(--dark-gold);
+            border-radius: 50%;
+            color: var(--gold);
+            font-size: 1.5rem;
+            transition: all 0.3s ease;
+            text-decoration: none;
+            position: relative;
+        }
+        
+        .social-link:hover {
+            background: var(--gold);
+            color: var(--black);
+            transform: translateY(-5px);
+            box-shadow: 0 5px 15px rgba(255, 215, 0, 0.4);
+        }
+        
+        .social-tooltip {
+            position: absolute;
+            bottom: -40px;
+            left: 50%;
+            transform: translateX(-50%);
+            background: var(--dark-gray);
+            color: var(--gold);
+            padding: 5px 10px;
+            border-radius: 5px;
+            font-size: 0.8rem;
+            white-space: nowrap;
+            opacity: 0;
+            transition: opacity 0.3s;
+            pointer-events: none;
+            border: 1px solid var(--dark-gold);
+        }
+        
+        .social-link:hover .social-tooltip {
+            opacity: 1;
+        }
+        
+        .copyright {
+            margin-top: 20px;
+            font-size: 0.9rem;
+            color: var(--paper);
+        }
+        
+        .floating-elements {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            z-index: -1;
+        }
+        
+        .floating-element {
+            position: absolute;
+            width: 4px;
+            height: 4px;
+            background: var(--gold);
+            border-radius: 50%;
+            box-shadow: 0 0 10px var(--gold);
+            animation: float 15s infinite linear;
+        }
+        
+        @keyframes float {
+            0% {
+                transform: translateY(100vh) rotate(0deg);
+                opacity: 0;
+            }
+            10% {
+                opacity: 1;
+            }
+            90% {
+                opacity: 1;
+            }
+            100% {
+                transform: translateY(-100px) rotate(360deg);
+                opacity: 0;
+            }
+        }
+        
+        @media (max-width: 768px) {
+            h1 {
+                font-size: 2.5rem;
+                letter-spacing: 4px;
+            }
+            
+            .subtitle {
+                font-size: 1.2rem;
+            }
+            
+            h2 {
+                font-size: 2rem;
+            }
+            
+            .games-section, .leaderboard-section, .about-section, .donate-section, .roulette-section, .admin-contact-section {
+                padding: 20px;
+            }
+            
+            .leaderboard-header {
+                flex-direction: column;
+                align-items: flex-start;
+            }
+            
+            .leaderboard-title {
+                margin-bottom: 20px;
+            }
+            
+            .wheel-container {
+                width: 280px;
+                height: 280px;
+            }
+        }
+        
+        /* Дополнительные анимации и эффекты для объема */
+        .glow {
+            position: fixed;
+            width: 300px;
+            height: 300px;
+            border-radius: 50%;
+            background: radial-gradient(circle, rgba(255, 215, 0, 0.2) 0%, transparent 70%);
+            filter: blur(20px);
+            z-index: -1;
+            animation: moveGlow 20s infinite alternate;
+        }
+        
+        @keyframes moveGlow {
+            0% {
+                transform: translate(10vw, 10vh);
+            }
+            25% {
+                transform: translate(80vw, 60vh);
+            }
+            50% {
+                transform: translate(40vw, 80vh);
+            }
+            75% {
+                transform: translate(70vw, 20vh);
+            }
+            100% {
+                transform: translate(20vw, 70vh);
+            }
+        }
+        
+        .newspaper-fold {
+            position: absolute;
+            top: 0;
+            right: 0;
+            width: 0;
+            height: 0;
+            border-style: solid;
+            border-width: 0 100px 100px 0;
+            border-color: transparent var(--dark-gold) transparent transparent;
+            opacity: 0.5;
+        }
+        
+        .newspaper-fold::after {
+            content: "";
+            position: absolute;
+            top: 10px;
+            right: -100px;
+            width: 80px;
+            height: 2px;
+            background: var(--gold);
+            transform: rotate(45deg);
+            box-shadow: 0 0 10px var(--gold);
+        }
+        
+        .stamp {
+            position: absolute;
+            bottom: 20px;
+            right: 20px;
+            width: 100px;
+            height: 100px;
+            border: 2px dashed var(--gold);
+            border-radius: 50%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            opacity: 0.7;
+            animation: stampRotate 20s infinite linear;
+        }
+        
+        .stamp::before {
+            content: "APPROVED";
+            font-size: 0.8rem;
+            font-weight: bold;
+            color: var(--gold);
+            transform: rotate(-15deg);
+        }
+        
+        @keyframes stampRotate {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+        
+        .ink-blot {
+            position: absolute;
+            width: 200px;
+            height: 200px;
+            background: radial-gradient(circle, rgba(184, 134, 11, 0.1) 0%, transparent 70%);
+            border-radius: 50%;
+            filter: blur(10px);
+            animation: inkSpread 10s infinite alternate;
+        }
+        
+        @keyframes inkSpread {
+            0% {
+                transform: scale(1);
+                opacity: 0.1;
+            }
+            100% {
+                transform: scale(1.5);
+                opacity: 0.3;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="newspaper-texture"></div>
+    <div class="floating-elements" id="floatingElements"></div>
+    <div class="glow"></div>
+    
+    <!-- Модальное окно для результатов рулетки -->
+    <div class="result-modal" id="resultModal">
+        <div class="result-content">
+            <span class="close-modal" id="closeResultModal">&times;</span>
+            <h2 class="result-title">Результат розыгрыша</h2>
+            <div class="result-prize" id="resultPrize">Ничего</div>
+            <p>Попробуйте еще раз через 24 часа!</p>
+        </div>
+    </div>
+    
+    <div class="container">
+        <header>
+            <div class="header-bg"></div>
+            <div class="newspaper-fold"></div>
+            <h1>КИНОТЕАТР</h1>
+            <p class="subtitle">Discord сервер для настоящих задротов</p>
+            <a href="https://discord.gg/aMZdscedDH" class="discord-btn" target="_blank">
+                <i class="fab fa-discord"></i> Присоединиться к серверу
+            </a>
+        </header>
+        
+        <section class="games-section">
+            <h2>Наши Игры</h2>
+            <div class="games-grid">
+                <div class="game-card">
+                    <div class="game-icon">
+                        <i class="fas fa-dragon"></i>
+                    </div>
+                    <h3>Dota 2</h3>
+                    <p>Тактическая битва на арене</p>
+                </div>
+                <div class="game-card">
+                    <div class="game-icon">
+                        <i class="fas fa-cube"></i>
+                    </div>
+                    <h3>Minecraft</h3>
+                    <p>Бесконечный мир возможностей</p>
+                </div>
+                <div class="game-card">
+                    <div class="game-icon">
+                        <i class="fas fa-car"></i>
+                    </div>
+                    <h3>GTA V & SAMP</h3>
+                    <p>Открытый мир приключений</p>
+                </div>
+                <div class="game-card">
+                    <div class="game-icon">
+                        <i class="fas fa-truck"></i>
+                    </div>
+                    <h3>Euro Truck Simulator 2</h3>
+                    <p>Реалистичные грузоперевозки</p>
+                </div>
+            </div>
+        </section>
+        
+        <section class="leaderboard-section">
+            <div class="stamp"></div>
+            <div class="leaderboard-header">
+                <h2 class="leaderboard-title">Voice Call Leaderboard</h2>
+                <p>Топ 9 самых активных участников</p>
+            </div>
+            <ul class="leaderboard-list">
+                <li class="leaderboard-item">
+                    <span class="user-name">@Даня</span>
+                    <span class="user-time">1,830h 11m 46s</span>
+                </li>
+                <li class="leaderboard-item">
+                    <span class="user-name">@Кипис</span>
+                    <span class="user-time">1,439h 37m 45s</span>
+                </li>
+                <li class="leaderboard-item">
+                    <span class="user-name">@Теенси</span>
+                    <span class="user-time">1,216h 13m 15s</span>
+                </li>
+                <li class="leaderboard-item">
+                    <span class="user-name">@Александр</span>
+                    <span class="user-time">897h 43m 17s</span>
+                </li>
+                <li class="leaderboard-item">
+                    <span class="user-name">@Яла</span>
+                    <span class="user-time">164h 45m 11s</span>
+                </li>
+                <li class="leaderboard-item">
+                    <span class="user-name">@но...</span>
+                    <span class="user-time">123h 38m 43s</span>
+                </li>
+                <li class="leaderboard-item">
+                    <span class="user-name">@Lxrderus?</span>
+                    <span class="user-time">89h 50m 32s</span>
+                </li>
+                <li class="leaderboard-item">
+                    <span class="user-name">@.suicidenote</span>
+                    <span class="user-time">50h 32m 33s</span>
+                </li>
+                <li class="leaderboard-item">
+                    <span class="user-name">@Акакике</span>
+                    <span class="user-time">48h 35m 18s</span>
+                </li>
+            </ul>
+        </section>
+        
+        <section class="donate-section">
+            <h2>Донат Предложения</h2>
+            <p style="text-align: center; margin-bottom: 30px; color: var(--paper);">Поддержите сервер и получите крутые привилегии!</p>
+            
+            <div class="donate-grid">
+                <div class="donate-card">
+                    <div class="donate-icon">
+                        <i class="fas fa-seedling"></i>
+                    </div>
+                    <h3>Начальный</h3>
+                    <div class="donate-price">50 руб.</div>
+                    <ul class="donate-features">
+                        <li>Особая роль на сервере</li>
+                        <li>Доступ к закрытому каналу</li>
+                        <li>Возможность изменять никнейм</li>
+                    </ul>
+                    <button class="donate-btn" onclick="redirectToDonate()">Купить сейчас</button>
+                </div>
+                
+                <div class="donate-card">
+                    <div class="donate-icon">
+                        <i class="fas fa-star"></i>
+                    </div>
+                    <h3>Базовый</h3>
+                    <div class="donate-price">150 руб.</div>
+                    <ul class="donate-features">
+                        <li>Все из начального пакета</li>
+                        <li>Эмодзи в нике</li>
+                        <li>Приоритет в голосовых каналах</li>
+                        <li>Доступ к бета-тестам</li>
+                    </ul>
+                    <button class="donate-btn" onclick="redirectToDonate()">Купить сейчас</button>
+                </div>
+                
+                <div class="donate-card">
+                    <div class="donate-icon">
+                        <i class="fas fa-gem"></i>
+                    </div>
+                    <h3>Продвинутый</h3>
+                    <div class="donate-price">300 руб.</div>
+                    <ul class="donate-features">
+                        <li>Все из базового пакета</li>
+                        <li>Личный цвет в чате</li>
+                        <li>Специальные эмодзи</li>
+                        <li>Возможность создавать голосования</li>
+                        <li>Доступ к эксклюзивным ивентам</li>
+                    </ul>
+                    <button class="donate-btn" onclick="redirectToDonate()">Купить сейчас</button>
+                </div>
+                
+                <div class="donate-card">
+                    <div class="donate-icon">
+                        <i class="fas fa-crown"></i>
+                    </div>
+                    <h3>Премиум</h3>
+                    <div class="donate-price">500 руб.</div>
+                    <ul class="donate-features">
+                        <li>Все из продвинутого пакета</li>
+                        <li>Золотая рамка профиля</li>
+                        <li>Приоритетная поддержка</li>
+                        <li>Создание приватных комнат</li>
+                        <li>Эксклюзивный бейдж</li>
+                        <li>Доступ к боту с премиум-функциями</li>
+                    </ul>
+                    <button class="donate-btn" onclick="redirectToDonate()">Купить сейчас</button>
+                </div>
+                
+                <div class="donate-card">
+                    <div class="donate-icon">
+                        <i class="fas fa-fire"></i>
+                    </div>
+                    <h3>Легендарный</h3>
+                    <div class="donate-price">1000 руб.</div>
+                    <ul class="donate-features">
+                        <li>Все из премиум пакета</li>
+                        <li>Анимированная рамка профиля</li>
+                        <li>Личный канал на сервере</li>
+                        <li>Участие в управлении сервером</li>
+                        <li>Эксклюзивный доступ к новым функциям</li>
+                        <li>Пожизненная скидка 20% на все будущие обновления</li>
+                    </ul>
+                    <button class="donate-btn" onclick="redirectToDonate()">Купить сейчас</button>
+                </div>
+                
+                <div class="donate-card">
+                    <div class="donate-icon">
+                        <i class="fas fa-infinity"></i>
+                    </div>
+                    <h3>Бессмертный</h3>
+                    <div class="donate-price">2000 руб.</div>
+                    <ul class="donate-features">
+                        <li>Все из легендарного пакета</li>
+                        <li>Пожизненный доступ ко всем функциям</li>
+                        <li>Именная роль создателя</li>
+                        <li>Упоминание в списке благодарностей</li>
+                        <li>Личная консультация по настройке</li>
+                        <li>Эксклюзивный мерч (при наличии)</li>
+                    </ul>
+                    <button class="donate-btn" onclick="redirectToDonate()">Купить сейчас</button>
+                </div>
+            </div>
+        </section>
+        
+        <section class="roulette-section">
+            <h2>Колесо Фортуны</h2>
+            <p style="margin-bottom: 30px; color: var(--paper);">Крутите колесо раз в 24 часа и выигрывайте призы из доната!</p>
+            
+            <div class="roulette-container">
+                <div class="wheel-container">
+                    <div class="wheel-pointer"></div>
+                    <div class="wheel" id="wheel">
+                        <div class="wheel-center">КРУТИ!</div>
+                    </div>
+                </div>
+                
+                <button class="spin-btn" id="spinBtn">Крутить колесо</button>
+                <div class="timer" id="timer">Следующая попытка доступна сейчас!</div>
+            </div>
+        </section>
+        
+        <section class="about-section">
+            <div class="ink-blot" style="top: -50px; left: -50px;"></div>
+            <div class="ink-blot" style="bottom: -50px; right: -50px;"></div>
+            <h2>О Нас</h2>
+            <div class="about-content">
+                <div class="about-text">
+                    <p>Мы - сообщество настоящих геймеров, объединенных любовью к качественным играм и хорошей компании. На нашем Discord сервере "КИНОТЕАТР" вы найдете единомышленников для совместных игровых сессий, обсуждения стратегий и просто приятного общения.</p>
+                    <p>Несмотря на название, мы не смотрим фильмы - мы создаем свои собственные истории в виртуальных мирах Dota 2, Minecraft, GTA V, GTA SAMP и Euro Truck Simulator 2.</p>
+                    <p>Присоединяйтесь к нашему сообществу, участвуйте в голосовых каналах, поднимайтесь в таблице лидеров и становитесь частью нашей большой игровой семьи!</p>
+                </div>
+                <div class="about-image"></div>
+            </div>
+        </section>
+        
+        <section class="admin-contact-section">
+            <h2>Связь с Администрацией</h2>
+            <p style="margin-bottom: 20px; color: var(--paper);">Есть вопросы или предложения? Напишите нашим администраторам!</p>
+            <a href="https://fitcommpany.github.io/geymeri/" class="admin-contact-btn" target="_blank">
+                <i class="fas fa-headset"></i> Связаться с администрацией
+            </a>
+        </section>
+        
+        <footer>
+            <div class="social-links">
+                <a href="https://discord.gg/aMZdscedDH" class="social-link" target="_blank">
+                    <i class="fab fa-discord"></i>
+                    <div class="social-tooltip">Присоединиться к серверу</div>
+                </a>
+                <a href="#" class="social-link" id="discordContact">
+                    <i class="fas fa-envelope"></i>
+                    <div class="social-tooltip">Связаться с администрацией</div>
+                </a>
+                <a href="https://steamcommunity.com/profiles/76561199051710124/" class="social-link" target="_blank">
+                    <i class="fab fa-steam"></i>
+                    <div class="social-tooltip">Наш Steam профиль</div>
+                </a>
+            </div>
+            <p class="copyright">© 2023 КИНОТЕАТР Discord Сервер. Все права защищены.</p>
+        </footer>
+    </div>
+
+    <script>
+        // Создание плавающих элементов
+        const floatingElements = document.getElementById('floatingElements');
+        for (let i = 0; i < 50; i++) {
+            const element = document.createElement('div');
+            element.classList.add('floating-element');
+            element.style.left = `${Math.random() * 100}vw`;
+            element.style.animationDelay = `${Math.random() * 15}s`;
+            element.style.animationDuration = `${15 + Math.random() * 10}s`;
+            floatingElements.appendChild(element);
+        }
+        
+        // Анимация появления элементов при скролле
+        const observerOptions = {
+            threshold: 0.1,
+            rootMargin: '0px 0px -50px 0px'
+        };
+        
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.style.animationPlayState = 'running';
+                }
+            });
+        }, observerOptions);
+        
+        document.querySelectorAll('.game-card, .leaderboard-item, .about-text p, .donate-card').forEach(el => {
+            el.style.animationPlayState = 'paused';
+            observer.observe(el);
+        });
+        
+        // Эффект печатной машинки для заголовка
+        const title = document.querySelector('h1');
+        const originalText = title.textContent;
+        title.textContent = '';
+        
+        let i = 0;
+        const typeWriter = () => {
+            if (i < originalText.length) {
+                title.textContent += originalText.charAt(i);
+                i++;
+                setTimeout(typeWriter, 150);
+            }
+        };
+        
+        // Запуск эффекта печатной машинки после загрузки страницы
+        window.addEventListener('load', () => {
+            setTimeout(typeWriter, 1000);
+        });
+        
+        // Параллакс эффект для фона
+        document.addEventListener('mousemove', (e) => {
+            const moveX = (e.clientX - window.innerWidth / 2) / 25;
+            const moveY = (e.clientY - window.innerHeight / 2) / 25;
+            
+            document.querySelector('.header-bg').style.transform = `translate(${moveX}px, ${moveY}px)`;
+        });
+        
+        // Функция для перенаправления на страницу доната
+        function redirectToDonate() {
+            window.open('https://dalink.to/yaladaydeneg', '_blank');
+        }
+        
+        // Логика для колеса фортуны
+        const wheel = document.getElementById('wheel');
+        const spinBtn = document.getElementById('spinBtn');
+        const timer = document.getElementById('timer');
+        const resultModal = document.getElementById('resultModal');
+        const resultPrize = document.getElementById('resultPrize');
+        const closeResultModal = document.getElementById('closeResultModal');
+        
+        // Призы для рулетки (15% шанс выигрыша, 85% - ничего)
+        const prizes = [
+            { name: "Ничего", probability: 85 },
+            { name: "Начальный пакет", probability: 5 },
+            { name: "Базовый пакет", probability: 4 },
+            { name: "Продвинутый пакет", probability: 3 },
+            { name: "Премиум пакет", probability: 2 },
+            { name: "Легендарный пакет", probability: 1 }
+        ];
+        
+        // Создание секторов колеса
+        function createWheelSectors() {
+            const sectorsCount = 12;
+            const sectorAngle = 360 / sectorsCount;
+            
+            for (let i = 0; i < sectorsCount; i++) {
+                const sector = document.createElement('div');
+                sector.className = 'wheel-item';
+                sector.style.transform = `rotate(${i * sectorAngle}deg)`;
+                
+                const text = document.createElement('div');
+                text.className = 'wheel-text';
+                
+                // 10 из 12 секторов - "Ничего" (83.3%), 2 - призы (16.7%)
+                if (i < 10) {
+                    text.textContent = "Ничего";
+                    text.style.color = "#FFD700";
+                } else if (i === 10) {
+                    text.textContent = "Базовый";
+                    text.style.color = "#FFFFFF";
+                } else {
+                    text.textContent = "Премиум";
+                    text.style.color = "#FFFFFF";
+                }
+                
+                sector.appendChild(text);
+                wheel.appendChild(sector);
+            }
+        }
+        
+        // Функция для получения случайного приза с учетом вероятностей
+        function getRandomPrize() {
+            const random = Math.random() * 100;
+            let cumulativeProbability = 0;
+            
+            for (const prize of prizes) {
+                cumulativeProbability += prize.probability;
+                if (random <= cumulativeProbability) {
+                    return prize.name;
+                }
+            }
+            
+            return "Ничего";
+        }
+        
+        // Функция для вращения колеса
+        function spinWheel() {
+            // Получаем случайный приз
+            const prize = getRandomPrize();
+            
+            // Вычисляем угол поворота для анимации
+            const extraRotations = 5; // Дополнительные полные обороты для эффекта
+            const baseAngle = Math.floor(Math.random() * 360);
+            const totalRotation = 360 * extraRotations + baseAngle;
+            
+            // Вращаем колесо
+            wheel.style.transform = `rotate(${totalRotation}deg)`;
+            
+            // Показываем результат после завершения анимации
+            setTimeout(() => {
+                resultPrize.textContent = prize;
+                resultModal.style.display = 'flex';
+                
+                // Сохраняем время последнего вращения
+                const now = new Date();
+                localStorage.setItem('lastSpin', now.getTime());
+                
+                // Обновляем таймер
+                updateTimer();
+            }, 4000);
+        }
+        
+        // Функция для обновления таймера
+        function updateTimer() {
+            const lastSpin = localStorage.getItem('lastSpin');
+            
+            if (!lastSpin) {
+                spinBtn.disabled = false;
+                timer.textContent = "Следующая попытка доступна сейчас!";
+                return;
+            }
+            
+            const now = new Date().getTime();
+            const timePassed = now - parseInt(lastSpin);
+            const twentyFourHours = 24 * 60 * 60 * 1000;
+            const timeLeft = twentyFourHours - timePassed;
+            
+            if (timeLeft <= 0) {
+                spinBtn.disabled = false;
+                timer.textContent = "Следующая попытка доступна сейчас!";
+            } else {
+                spinBtn.disabled = true;
+                const hours = Math.floor(timeLeft / (60 * 60 * 1000));
+                const minutes = Math.floor((timeLeft % (60 * 60 * 1000)) / (60 * 1000));
+                timer.textContent = `Следующая попытка через: ${hours}ч ${minutes}м`;
+            }
+        }
+        
+        // Инициализация колеса
+        createWheelSectors();
+        updateTimer();
+        
+        // Обработчики событий
+        spinBtn.addEventListener('click', spinWheel);
+        closeResultModal.addEventListener('click', () => {
+            resultModal.style.display = 'none';
+        });
+        
+        window.addEventListener('click', (e) => {
+            if (e.target === resultModal) {
+                resultModal.style.display = 'none';
+            }
+        });
+        
+        // Обновляем таймер каждую минуту
+        setInterval(updateTimer, 60000);
+    </script>
+</body>
+</html>
