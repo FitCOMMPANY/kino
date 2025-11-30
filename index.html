@@ -13,6 +13,9 @@
             --dark-gray: #1A1A1A;
             --light-gray: #333333;
             --paper: #F5F5DC;
+            --red: #8B0000;
+            --dark-red: #5A0000;
+            --bright-red: #FF0000;
         }
         
         * {
@@ -29,24 +32,263 @@
             position: relative;
         }
         
-        body::before {
-            content: "";
+        /* Анимированный фон с красным и черным узором */
+        .animated-background {
             position: fixed;
             top: 0;
             left: 0;
             width: 100%;
             height: 100%;
-            background: 
-                radial-gradient(circle at 20% 30%, rgba(184, 134, 11, 0.1) 0%, transparent 50%),
-                radial-gradient(circle at 80% 70%, rgba(184, 134, 11, 0.1) 0%, transparent 50%),
-                radial-gradient(circle at 40% 80%, rgba(184, 134, 11, 0.1) 0%, transparent 50%);
-            z-index: -1;
-            animation: pulse 15s infinite alternate;
+            z-index: -2;
+            overflow: hidden;
         }
         
-        @keyframes pulse {
-            0% { opacity: 0.3; }
-            100% { opacity: 0.7; }
+        .pattern-layer {
+            position: absolute;
+            width: 200%;
+            height: 200%;
+            top: -50%;
+            left: -50%;
+            background-image: 
+                radial-gradient(circle at 30% 30%, var(--red) 0%, transparent 15%),
+                radial-gradient(circle at 70% 70%, var(--red) 0%, transparent 15%),
+                radial-gradient(circle at 50% 20%, var(--dark-red) 0%, transparent 12%),
+                radial-gradient(circle at 20% 80%, var(--dark-red) 0%, transparent 12%),
+                radial-gradient(circle at 80% 40%, var(--dark-red) 0%, transparent 12%),
+                linear-gradient(45deg, transparent 49%, var(--red) 49%, var(--red) 51%, transparent 51%),
+                linear-gradient(-45deg, transparent 49%, var(--red) 49%, var(--red) 51%, transparent 51%);
+            background-size: 200px 200px, 200px 200px, 150px 150px, 150px 150px, 150px 150px, 100px 100px, 100px 100px;
+            opacity: 0.25;
+            animation: moveBackground 40s linear infinite;
+        }
+        
+        .pattern-layer:nth-child(2) {
+            background-image: 
+                radial-gradient(circle at 60% 40%, var(--red) 0%, transparent 18%),
+                radial-gradient(circle at 40% 60%, var(--red) 0%, transparent 18%),
+                radial-gradient(circle at 80% 20%, var(--dark-red) 0%, transparent 15%),
+                radial-gradient(circle at 20% 80%, var(--dark-red) 0%, transparent 15%),
+                linear-gradient(90deg, transparent 49%, var(--dark-red) 49%, var(--dark-red) 51%, transparent 51%),
+                linear-gradient(0deg, transparent 49%, var(--dark-red) 49%, var(--dark-red) 51%, transparent 51%);
+            background-size: 180px 180px, 180px 180px, 120px 120px, 120px 120px, 80px 80px, 80px 80px;
+            animation: moveBackgroundReverse 35s linear infinite;
+            opacity: 0.2;
+        }
+        
+        .pattern-layer:nth-child(3) {
+            background-image: 
+                radial-gradient(circle at 50% 50%, var(--red) 0%, transparent 20%),
+                radial-gradient(circle at 10% 90%, var(--dark-red) 0%, transparent 18%),
+                radial-gradient(circle at 90% 10%, var(--dark-red) 0%, transparent 18%),
+                linear-gradient(30deg, transparent 49%, var(--red) 49%, var(--red) 51%, transparent 51%),
+                linear-gradient(-30deg, transparent 49%, var(--red) 49%, var(--red) 51%, transparent 51%);
+            background-size: 250px 250px, 200px 200px, 200px 200px, 120px 120px, 120px 120px;
+            animation: moveBackgroundDiagonal 55s linear infinite;
+            opacity: 0.15;
+        }
+        
+        @keyframes moveBackground {
+            0% { transform: translate(0, 0) rotate(0deg); }
+            100% { transform: translate(-100px, -100px) rotate(360deg); }
+        }
+        
+        @keyframes moveBackgroundReverse {
+            0% { transform: translate(0, 0) rotate(0deg); }
+            100% { transform: translate(100px, 100px) rotate(-360deg); }
+        }
+        
+        @keyframes moveBackgroundDiagonal {
+            0% { transform: translate(0, 0) skew(0deg); }
+            50% { transform: translate(-50px, 50px) skew(5deg); }
+            100% { transform: translate(0, 0) skew(0deg); }
+        }
+        
+        /* Летающие красные элементы */
+        .flying-reds {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: -1;
+            pointer-events: none;
+        }
+        
+        .flying-element {
+            position: absolute;
+            opacity: 0;
+            animation: flyAcross 15s linear infinite;
+        }
+        
+        .flying-element:nth-child(1) {
+            top: 10%;
+            width: 80px;
+            height: 80px;
+            background: radial-gradient(circle, var(--bright-red) 0%, transparent 70%);
+            filter: blur(5px);
+            animation-delay: 0s;
+            animation-duration: 20s;
+        }
+        
+        .flying-element:nth-child(2) {
+            top: 30%;
+            width: 120px;
+            height: 120px;
+            background: radial-gradient(circle, var(--red) 0%, transparent 70%);
+            filter: blur(8px);
+            animation-delay: 3s;
+            animation-duration: 25s;
+        }
+        
+        .flying-element:nth-child(3) {
+            top: 60%;
+            width: 60px;
+            height: 60px;
+            background: radial-gradient(circle, var(--bright-red) 0%, transparent 70%);
+            filter: blur(4px);
+            animation-delay: 7s;
+            animation-duration: 18s;
+        }
+        
+        .flying-element:nth-child(4) {
+            top: 80%;
+            width: 100px;
+            height: 100px;
+            background: radial-gradient(circle, var(--red) 0%, transparent 70%);
+            filter: blur(6px);
+            animation-delay: 12s;
+            animation-duration: 22s;
+        }
+        
+        .flying-element:nth-child(5) {
+            top: 40%;
+            width: 150px;
+            height: 150px;
+            background: radial-gradient(circle, var(--dark-red) 0%, transparent 70%);
+            filter: blur(10px);
+            animation-delay: 5s;
+            animation-duration: 30s;
+        }
+        
+        .flying-element:nth-child(6) {
+            top: 70%;
+            width: 70px;
+            height: 70px;
+            background: radial-gradient(circle, var(--bright-red) 0%, transparent 70%);
+            filter: blur(3px);
+            animation-delay: 15s;
+            animation-duration: 17s;
+        }
+        
+        @keyframes flyAcross {
+            0% {
+                left: -200px;
+                opacity: 0;
+                transform: scale(0.5) rotate(0deg);
+            }
+            10% {
+                opacity: 0.7;
+                transform: scale(1) rotate(180deg);
+            }
+            90% {
+                opacity: 0.7;
+                transform: scale(1) rotate(360deg);
+            }
+            100% {
+                left: 100vw;
+                opacity: 0;
+                transform: scale(0.5) rotate(540deg);
+            }
+        }
+        
+        /* Красные волны */
+        .red-waves {
+            position: fixed;
+            bottom: 0;
+            left: 0;
+            width: 100%;
+            height: 30%;
+            z-index: -1;
+            opacity: 0.1;
+            pointer-events: none;
+        }
+        
+        .wave {
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 200%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, var(--red), transparent);
+            animation: waveMove 15s linear infinite;
+        }
+        
+        .wave:nth-child(1) {
+            height: 80%;
+            opacity: 0.15;
+            animation-delay: 0s;
+            animation-duration: 20s;
+        }
+        
+        .wave:nth-child(2) {
+            height: 60%;
+            opacity: 0.1;
+            animation-delay: 5s;
+            animation-duration: 25s;
+        }
+        
+        .wave:nth-child(3) {
+            height: 40%;
+            opacity: 0.08;
+            animation-delay: 10s;
+            animation-duration: 30s;
+        }
+        
+        @keyframes waveMove {
+            0% {
+                transform: translateX(0);
+            }
+            100% {
+                transform: translateX(-50%);
+            }
+        }
+        
+        /* Красные частицы */
+        .red-particles {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: -1;
+            pointer-events: none;
+        }
+        
+        .particle {
+            position: absolute;
+            width: 8px;
+            height: 8px;
+            background: var(--bright-red);
+            border-radius: 50%;
+            opacity: 0;
+            animation: particleFloat 20s linear infinite;
+        }
+        
+        @keyframes particleFloat {
+            0% {
+                transform: translateY(100vh) translateX(0) rotate(0deg);
+                opacity: 0;
+            }
+            10% {
+                opacity: 0.8;
+            }
+            90% {
+                opacity: 0.8;
+            }
+            100% {
+                transform: translateY(-100px) translateX(100px) rotate(360deg);
+                opacity: 0;
+            }
         }
         
         .newspaper-texture {
@@ -60,6 +302,7 @@
             opacity: 0.1;
         }
         
+        /* Остальные стили остаются без изменений */
         .container {
             max-width: 1200px;
             margin: 0 auto;
@@ -516,7 +759,8 @@
             box-shadow: 0 5px 15px rgba(255, 215, 0, 0.4);
         }
         
-        .roulette-section {
+        /* Секция получения приза */
+        .prize-section {
             margin: 60px 0;
             padding: 40px;
             background: rgba(26, 26, 26, 0.8);
@@ -528,7 +772,7 @@
             text-align: center;
         }
         
-        .roulette-container {
+        .prize-container {
             display: flex;
             flex-direction: column;
             align-items: center;
@@ -536,117 +780,69 @@
             margin-top: 30px;
         }
         
-        .wheel-container {
-            position: relative;
-            width: 350px;
-            height: 350px;
-            margin: 0 auto;
+        .prize-icon {
+            font-size: 5rem;
+            color: var(--gold);
+            text-shadow: 0 0 15px var(--gold);
+            margin-bottom: 20px;
+            animation: pulse 2s infinite;
         }
         
-        .wheel {
-            width: 100%;
-            height: 100%;
-            border-radius: 50%;
-            position: relative;
-            transition: transform 4s cubic-bezier(0.2, 0.8, 0.3, 1);
-            box-shadow: 0 0 25px rgba(255, 215, 0, 0.5);
-            background: conic-gradient(
-                from 0deg,
-                #8B0000 0deg 30deg,
-                #1A1A1A 30deg 60deg,
-                #8B0000 60deg 90deg,
-                #1A1A1A 90deg 120deg,
-                #8B0000 120deg 150deg,
-                #1A1A1A 150deg 180deg,
-                #8B0000 180deg 210deg,
-                #1A1A1A 210deg 240deg,
-                #8B0000 240deg 270deg,
-                #1A1A1A 270deg 300deg,
-                #8B0000 300deg 330deg,
-                #1A1A1A 330deg 360deg
-            );
+        @keyframes pulse {
+            0% { transform: scale(1); }
+            50% { transform: scale(1.1); }
+            100% { transform: scale(1); }
         }
         
-        .wheel-center {
-            position: absolute;
-            top: 50%;
-            left: 50%;
-            transform: translate(-50%, -50%);
-            width: 60px;
-            height: 60px;
-            background: var(--gold);
-            border-radius: 50%;
-            z-index: 5;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            box-shadow: 0 0 15px var(--gold);
-            font-weight: bold;
-            color: var(--black);
-        }
-        
-        .wheel-pointer {
-            position: absolute;
-            top: -20px;
-            left: 50%;
-            transform: translateX(-50%);
-            width: 30px;
-            height: 40px;
-            background: var(--gold);
-            clip-path: polygon(50% 100%, 0 0, 100% 0);
-            z-index: 10;
-            filter: drop-shadow(0 0 5px var(--gold));
-        }
-        
-        .wheel-item {
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            text-align: center;
-            transform-origin: center;
+        .prize-text {
+            font-size: 1.5rem;
             color: var(--paper);
-            font-weight: bold;
-            display: flex;
-            align-items: center;
-            justify-content: center;
+            margin-bottom: 20px;
         }
         
-        .wheel-text {
-            transform: rotate(90deg);
-            font-size: 0.9rem;
-            position: absolute;
-            width: 120px;
-            text-align: center;
-        }
-        
-        .spin-btn {
+        .get-prize-btn {
             background: linear-gradient(45deg, var(--dark-gold), var(--gold));
             color: var(--black);
             padding: 15px 40px;
             border-radius: 50px;
             border: none;
             font-weight: bold;
-            font-size: 1.2rem;
+            font-size: 1.3rem;
             cursor: pointer;
             transition: all 0.3s ease;
             box-shadow: 0 5px 15px rgba(255, 215, 0, 0.4);
             text-transform: uppercase;
             letter-spacing: 2px;
+            position: relative;
+            overflow: hidden;
         }
         
-        .spin-btn:hover:not(:disabled) {
+        .get-prize-btn::before {
+            content: "";
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.4), transparent);
+            transition: 0.5s;
+        }
+        
+        .get-prize-btn:hover::before {
+            left: 100%;
+        }
+        
+        .get-prize-btn:hover:not(:disabled) {
             transform: translateY(-5px);
             box-shadow: 0 10px 20px rgba(255, 215, 0, 0.6);
         }
         
-        .spin-btn:disabled {
+        .get-prize-btn:disabled {
             opacity: 0.5;
             cursor: not-allowed;
         }
         
-        .timer {
+        .prize-timer {
             font-size: 1.2rem;
             color: var(--paper);
             margin-top: 10px;
@@ -986,7 +1182,7 @@
                 font-size: 2rem;
             }
             
-            .games-section, .leaderboard-section, .about-section, .donate-section, .roulette-section, .admin-contact-section {
+            .games-section, .leaderboard-section, .about-section, .donate-section, .prize-section, .admin-contact-section {
                 padding: 20px;
             }
             
@@ -997,11 +1193,6 @@
             
             .leaderboard-title {
                 margin-bottom: 20px;
-            }
-            
-            .wheel-container {
-                width: 280px;
-                height: 280px;
             }
         }
         
@@ -1110,15 +1301,42 @@
     </style>
 </head>
 <body>
+    <!-- Анимированный фон с красным и черным узором -->
+    <div class="animated-background">
+        <div class="pattern-layer"></div>
+        <div class="pattern-layer"></div>
+        <div class="pattern-layer"></div>
+    </div>
+    
+    <!-- Летающие красные элементы -->
+    <div class="flying-reds">
+        <div class="flying-element"></div>
+        <div class="flying-element"></div>
+        <div class="flying-element"></div>
+        <div class="flying-element"></div>
+        <div class="flying-element"></div>
+        <div class="flying-element"></div>
+    </div>
+    
+    <!-- Красные волны -->
+    <div class="red-waves">
+        <div class="wave"></div>
+        <div class="wave"></div>
+        <div class="wave"></div>
+    </div>
+    
+    <!-- Красные частицы -->
+    <div class="red-particles" id="redParticles"></div>
+    
     <div class="newspaper-texture"></div>
     <div class="floating-elements" id="floatingElements"></div>
     <div class="glow"></div>
     
-    <!-- Модальное окно для результатов рулетки -->
+    <!-- Модальное окно для результатов получения приза -->
     <div class="result-modal" id="resultModal">
         <div class="result-content">
             <span class="close-modal" id="closeResultModal">&times;</span>
-            <h2 class="result-title">Результат розыгрыша</h2>
+            <h2 class="result-title">Результат</h2>
             <div class="result-prize" id="resultPrize">Ничего</div>
             <p>Попробуйте еще раз через 24 часа!</p>
         </div>
@@ -1239,7 +1457,7 @@
                         <i class="fas fa-star"></i>
                     </div>
                     <h3>Базовый</h3>
-                    <div class="donate-price">150 руб.</div>
+                    <div class="donate-price">100 руб.</div>
                     <ul class="donate-features">
                         <li>Все из начального пакета</li>
                         <li>Эмодзи в нике</li>
@@ -1254,7 +1472,7 @@
                         <i class="fas fa-gem"></i>
                     </div>
                     <h3>Продвинутый</h3>
-                    <div class="donate-price">300 руб.</div>
+                    <div class="donate-price">150 руб.</div>
                     <ul class="donate-features">
                         <li>Все из базового пакета</li>
                         <li>Личный цвет в чате</li>
@@ -1270,7 +1488,7 @@
                         <i class="fas fa-crown"></i>
                     </div>
                     <h3>Премиум</h3>
-                    <div class="donate-price">500 руб.</div>
+                    <div class="donate-price">200 руб.</div>
                     <ul class="donate-features">
                         <li>Все из продвинутого пакета</li>
                         <li>Золотая рамка профиля</li>
@@ -1287,7 +1505,7 @@
                         <i class="fas fa-fire"></i>
                     </div>
                     <h3>Легендарный</h3>
-                    <div class="donate-price">1000 руб.</div>
+                    <div class="donate-price">250 руб.</div>
                     <ul class="donate-features">
                         <li>Все из премиум пакета</li>
                         <li>Анимированная рамка профиля</li>
@@ -1304,7 +1522,7 @@
                         <i class="fas fa-infinity"></i>
                     </div>
                     <h3>Бессмертный</h3>
-                    <div class="donate-price">2000 руб.</div>
+                    <div class="donate-price">300 руб.</div>
                     <ul class="donate-features">
                         <li>Все из легендарного пакета</li>
                         <li>Пожизненный доступ ко всем функциям</li>
@@ -1318,20 +1536,17 @@
             </div>
         </section>
         
-        <section class="roulette-section">
-            <h2>Колесо Фортуны</h2>
-            <p style="margin-bottom: 30px; color: var(--paper);">Крутите колесо раз в 24 часа и выигрывайте призы из доната!</p>
+        <section class="prize-section">
+            <h2>Получи Приз</h2>
+            <p style="margin-bottom: 30px; color: var(--paper);">Нажмите на кнопку и получите случайный приз из доната!</p>
             
-            <div class="roulette-container">
-                <div class="wheel-container">
-                    <div class="wheel-pointer"></div>
-                    <div class="wheel" id="wheel">
-                        <div class="wheel-center">КРУТИ!</div>
-                    </div>
+            <div class="prize-container">
+                <div class="prize-icon">
+                    <i class="fas fa-gift"></i>
                 </div>
-                
-                <button class="spin-btn" id="spinBtn">Крутить колесо</button>
-                <div class="timer" id="timer">Следующая попытка доступна сейчас!</div>
+                <p class="prize-text">Попробуйте удачу и получите приз!</p>
+                <button class="get-prize-btn" id="getPrizeBtn">Получить приз</button>
+                <div class="prize-timer" id="prizeTimer">Следующая попытка доступна сейчас!</div>
             </div>
         </section>
         
@@ -1388,6 +1603,18 @@
             floatingElements.appendChild(element);
         }
         
+        // Создание красных частиц
+        const redParticles = document.getElementById('redParticles');
+        for (let i = 0; i < 30; i++) {
+            const particle = document.createElement('div');
+            particle.classList.add('particle');
+            particle.style.left = `${Math.random() * 100}vw`;
+            particle.style.animationDelay = `${Math.random() * 20}s`;
+            particle.style.animationDuration = `${15 + Math.random() * 10}s`;
+            particle.style.background = `var(${Math.random() > 0.5 ? '--bright-red' : '--red'})`;
+            redParticles.appendChild(particle);
+        }
+        
         // Анимация появления элементов при скролле
         const observerOptions = {
             threshold: 0.1,
@@ -1439,53 +1666,23 @@
             window.open('https://dalink.to/yaladaydeneg', '_blank');
         }
         
-        // Логика для колеса фортуны
-        const wheel = document.getElementById('wheel');
-        const spinBtn = document.getElementById('spinBtn');
-        const timer = document.getElementById('timer');
+        // Логика для получения приза
+        const getPrizeBtn = document.getElementById('getPrizeBtn');
+        const prizeTimer = document.getElementById('prizeTimer');
         const resultModal = document.getElementById('resultModal');
         const resultPrize = document.getElementById('resultPrize');
         const closeResultModal = document.getElementById('closeResultModal');
         
-        // Призы для рулетки (15% шанс выигрыша, 85% - ничего)
+        // Призы для системы получения приза (90% шанс "Ничего", 10% - призы)
         const prizes = [
-            { name: "Ничего", probability: 85 },
-            { name: "Начальный пакет", probability: 5 },
-            { name: "Базовый пакет", probability: 4 },
-            { name: "Продвинутый пакет", probability: 3 },
-            { name: "Премиум пакет", probability: 2 },
-            { name: "Легендарный пакет", probability: 1 }
+            { name: "Ничего", probability: 90 },
+            { name: "Начальный пакет", probability: 3 },
+            { name: "Базовый пакет", probability: 2.5 },
+            { name: "Продвинутый пакет", probability: 2 },
+            { name: "Премиум пакет", probability: 1.5 },
+            { name: "Легендарный пакет", probability: 0.7 },
+            { name: "Бессмертный пакет", probability: 0.3 }
         ];
-        
-        // Создание секторов колеса
-        function createWheelSectors() {
-            const sectorsCount = 12;
-            const sectorAngle = 360 / sectorsCount;
-            
-            for (let i = 0; i < sectorsCount; i++) {
-                const sector = document.createElement('div');
-                sector.className = 'wheel-item';
-                sector.style.transform = `rotate(${i * sectorAngle}deg)`;
-                
-                const text = document.createElement('div');
-                text.className = 'wheel-text';
-                
-                // 10 из 12 секторов - "Ничего" (83.3%), 2 - призы (16.7%)
-                if (i < 10) {
-                    text.textContent = "Ничего";
-                    text.style.color = "#FFD700";
-                } else if (i === 10) {
-                    text.textContent = "Базовый";
-                    text.style.color = "#FFFFFF";
-                } else {
-                    text.textContent = "Премиум";
-                    text.style.color = "#FFFFFF";
-                }
-                
-                sector.appendChild(text);
-                wheel.appendChild(sector);
-            }
-        }
         
         // Функция для получения случайного приза с учетом вероятностей
         function getRandomPrize() {
@@ -1502,65 +1699,54 @@
             return "Ничего";
         }
         
-        // Функция для вращения колеса
-        function spinWheel() {
+        // Функция для получения приза
+        function getPrize() {
             // Получаем случайный приз
             const prize = getRandomPrize();
             
-            // Вычисляем угол поворота для анимации
-            const extraRotations = 5; // Дополнительные полные обороты для эффекта
-            const baseAngle = Math.floor(Math.random() * 360);
-            const totalRotation = 360 * extraRotations + baseAngle;
+            // Показываем результат
+            resultPrize.textContent = prize;
+            resultModal.style.display = 'flex';
             
-            // Вращаем колесо
-            wheel.style.transform = `rotate(${totalRotation}deg)`;
+            // Сохраняем время последнего получения приза
+            const now = new Date();
+            localStorage.setItem('lastPrize', now.getTime());
             
-            // Показываем результат после завершения анимации
-            setTimeout(() => {
-                resultPrize.textContent = prize;
-                resultModal.style.display = 'flex';
-                
-                // Сохраняем время последнего вращения
-                const now = new Date();
-                localStorage.setItem('lastSpin', now.getTime());
-                
-                // Обновляем таймер
-                updateTimer();
-            }, 4000);
+            // Обновляем таймер
+            updatePrizeTimer();
         }
         
         // Функция для обновления таймера
-        function updateTimer() {
-            const lastSpin = localStorage.getItem('lastSpin');
+        function updatePrizeTimer() {
+            const lastPrize = localStorage.getItem('lastPrize');
             
-            if (!lastSpin) {
-                spinBtn.disabled = false;
-                timer.textContent = "Следующая попытка доступна сейчас!";
+            if (!lastPrize) {
+                getPrizeBtn.disabled = false;
+                prizeTimer.textContent = "Попытка доступна сейчас!";
                 return;
             }
             
             const now = new Date().getTime();
-            const timePassed = now - parseInt(lastSpin);
+            const timePassed = now - parseInt(lastPrize);
             const twentyFourHours = 24 * 60 * 60 * 1000;
             const timeLeft = twentyFourHours - timePassed;
             
             if (timeLeft <= 0) {
-                spinBtn.disabled = false;
-                timer.textContent = "Следующая попытка доступна сейчас!";
+                getPrizeBtn.disabled = false;
+                prizeTimer.textContent = "Попытка доступна сейчас!";
             } else {
-                spinBtn.disabled = true;
+                getPrizeBtn.disabled = true;
                 const hours = Math.floor(timeLeft / (60 * 60 * 1000));
                 const minutes = Math.floor((timeLeft % (60 * 60 * 1000)) / (60 * 1000));
-                timer.textContent = `Следующая попытка через: ${hours}ч ${minutes}м`;
+                prizeTimer.textContent = `Следующая попытка через: ${hours}ч ${minutes}м`;
             }
         }
         
-        // Инициализация колеса
-        createWheelSectors();
-        updateTimer();
+        // Инициализация системы призов
+        updatePrizeTimer();
         
         // Обработчики событий
-        spinBtn.addEventListener('click', spinWheel);
+        getPrizeBtn.addEventListener('click', getPrize);
         closeResultModal.addEventListener('click', () => {
             resultModal.style.display = 'none';
         });
@@ -1572,7 +1758,7 @@
         });
         
         // Обновляем таймер каждую минуту
-        setInterval(updateTimer, 60000);
+        setInterval(updatePrizeTimer, 60000);
     </script>
 </body>
 </html>
